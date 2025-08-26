@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Review SC - Welper Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Halaman Iklan */
+        #ad-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #6b3fa0, #4a2c7a, #3a2260);
+        }
+        
+        .ad-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .ad-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #d9b3ff;
+        }
+        
+        .ad-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #e6ccff;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        /* Tombol */
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #8a2be2, #6a0dad);
+            color: white;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #9932cc, #7b68ee);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+        }
+        
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+        
+        .btn-telegram {
+            background: linear-gradient(135deg, #0088cc, #005999);
+        }
+        
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        
+        /* Halaman Utama */
+        #main-page {
+            display: none;
+            padding: 30px;
+        }
+        
+        /* Video Background */
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #8a2be2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+        
+        .welcome-text {
+            margin-top: 20px;
+            font-size: 2.2rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #d9b3ff;
+        }
+        
+        .subtitle {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #e6ccff;
+            text-align: center;
+        }
+        
+        /* Container list SC */
+        .list-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        /* Item list SC */
+        .list-item {
+            background: rgba(138, 43, 226, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+        }
+        
+        .list-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .list-details {
+            padding: 20px;
+        }
+        
+        .list-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #e6ccff;
+        }
+        
+        .list-description {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            line-height: 1.5;
+            color: #d9b3ff;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 71, 87, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(255, 71, 87, 1);
+            transform: scale(1.1);
+        }
+        
+        /* Form tambah list (tersembunyi untuk user biasa) */
+        .add-list-form {
+            background: rgba(138, 43, 226, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #e6ccff;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #d9b3ff;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Modal password */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: rgba(138, 43, 226, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #e6ccff;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Pengaturan password */
+        .password-settings {
+            background: rgba(138, 43, 226, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Admin login */
+        .admin-login-modal {
+            background: rgba(138, 43, 226, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Form edit welcome */
+        .welcome-settings {
+            background: rgba(138, 43, 226, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Notifikasi */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4a2c7a;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .empty-list-message {
+            text-align: center;
+            padding: 40px;
+            background: rgba(138, 43, 226, 0.15);
+            border-radius: 15px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .empty-list-message h3 {
+            color: #e6ccff;
+            margin-bottom: 10px;
+        }
+        
+        .empty-list-message p {
+            color: #d9b3ff;
+        }
+        
+        /* Ikon admin */
+        .admin-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8a2be2, #6a0dad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .admin-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+        }
+        
+        .admin-icon i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        /* Responsivitas */
+        @media (max-width: 768px) {
+            .ad-content {
+                padding: 25px;
+            }
+            
+            .ad-content h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-text {
+                font-size: 1.8rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .list-container {
+                grid-template-columns: 1fr;
+            }
+            
+            #video-background {
+                display: none;
+            }
+            
+            body {
+                background: url('https://files.catbox.moe/ohq33s.jpg') no-repeat center center fixed;
+                background-size: cover;
+            }
+            
+            .admin-icon {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .admin-icon i {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Halaman Iklan -->
+    <section id="ad-page">
+        <div class="ad-content">
+            <h1 id="welcome-title">Selamat Datang</h1>
+            <p id="welcome-message">SEBELUM INSTALL KALO KALIAN LAGI CARI ADP, PANEL, SELLER PANEL, VPS, BIKIN WEB, BIKIN SC, BUY SC ALL SC ADA, BISA CHAT TELEGRAM GUA DI BAWAH DAN JANGAN LUPA MASUK SALURAN GUA BIAR GAK TINGGALAN INFO</p>
+            
+            <div class="button-group">
+                <button class="btn btn-wa" onclick="window.open('https://whatsapp.com/channel/0029Vb669U89xVJnlXO44c3m', '_blank')">
+                    <i class="fab fa-whatsapp"></i> Saluran WhatsApp
+                </button>
+                <button class="btn btn-telegram" onclick="window.open('https://t.me/Welperoffcial', '_blank')">
+                    <i class="fab fa-telegram"></i> Telegram
+                </button>
+            </div>
+            
+            <button class="btn" onclick="showMainPage()">Lanjut</button>
+        </div>
+    </section>
+
+    <!-- Halaman Utama -->
+    <section id="main-page">
+        <!-- Ikon Admin -->
+        <div class="admin-icon" id="admin-icon" onclick="showAdminLoginModal()">
+            <i class="fas fa-user-cog"></i>
+        </div>
+        
+        <!-- Video Background -->
+        <video autoplay muted loop id="video-background">
+            <source src="https://files.catbox.moe/d1oofz.mp4" type="video/mp4">
+            Browser Anda tidak mendukung video HTML5.
+        </video>
+        <div class="overlay"></div>
+        
+        <!-- Header dengan logo dan welcome text -->
+        <div class="header">
+            <img src="https://files.catbox.moe/ohq33s.jpg" alt="Logo" class="logo" id="header-logo">
+            <h1 class="welcome-text" id="main-welcome-text">Welcome to list riview sc by welper-offcial</h1>
+            <p class="subtitle">.</p>
+        </div>
+        
+        <!-- Container list SC -->
+        <div class="list-container" id="sc-list-container">
+            <!-- Item list akan ditambahkan secara dinamis -->
+            <div class="empty-list-message" id="empty-list-message">
+                <h3>Belum ada item SC</h3>
+                <p>Login sebagai admin untuk menambahkan item SC baru</p>
+            </div>
+        </div>
+        
+        <!-- Form untuk menambah list SC baru (hanya muncul setelah login admin) -->
+        <div class="add-list-form" id="add-list-form">
+            <h2 class="form-title">Tambah List SC Baru (Admin Only)</h2>
+            <div class="form-group">
+                <label for="new-title">Judul SC</label>
+                <input type="text" id="new-title" class="form-input" placeholder="Masukkan judul SC">
+            </div>
+            <div class="form-group">
+                <label for="new-description">Deskripsi</label>
+                <input type="text" id="new-description" class="form-input" placeholder="Masukkan deskripsi">
+            </div>
+            <div class="form-group">
+                <label for="new-image">URL Gambar (Catbox)</label>
+                <input type="text" id="new-image" class="form-input" placeholder="Masukkan URL gambar dari Catbox">
+            </div>
+            <div class="form-group">
+                <label for="new-password-item">Password untuk Item ini</label>
+                <input type="password" id="new-password-item" class="form-input" placeholder="Masukkan password untuk item ini">
+            </div>
+            <div class="form-group">
+                <label for="new-download-url">URL Download</label>
+                <input type="text" id="new-download-url" class="form-input" placeholder="Masukkan URL download">
+            </div>
+            <button class="btn" onclick="addNewItem()">Tambah SC</button>
+            <button class="btn" onclick="adminLogout()" style="background: #666; margin-left: 10px;">Logout Admin</button>
+        </div>
+        
+        <!-- Pengaturan Password (hanya muncul setelah login admin) -->
+        <div class="password-settings" id="password-settings">
+            <h2 class="form-title">Pengaturan Password Default</h2>
+            <div class="form-group">
+                <label for="new-password">Password Baru (default)</label>
+                <input type="password" id="new-password" class="form-input" placeholder="Masukkan password baru default">
+            </div>
+            <button class="btn" onclick="changePassword()">Ganti Password Default</button>
+        </div>
+        
+        <!-- Pengaturan Welcome Page (hanya muncul setelah login admin) -->
+        <div class="welcome-settings" id="welcome-settings">
+            <h2 class="form-title">Pengaturan Halaman Welcome (Admin Only)</h2>
+            <div class="form-group">
+                <label for="welcome-title-input">Judul Welcome</label>
+                <input type="text" id="welcome-title-input" class="form-input" placeholder="Masukkan judul welcome">
+            </div>
+            <div class="form-group">
+                <label for="welcome-message-input">Pesan Welcome</label>
+                <textarea id="welcome-message-input" class="form-input" placeholder="Masukkan pesan welcome" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="welcome-logo-url">URL Logo (Catbox)</label>
+                <input type="text" id="welcome-logo-url" class="form-input" placeholder="Masukkan URL logo dari Catbox">
+            </div>
+            <div class="form-group">
+                <label for="welcome-bg-url">URL Background Video (Catbox)</label>
+                <input type="text" id="welcome-bg-url" class="form-input" placeholder="Masukkan URL background video dari Catbox">
+            </div>
+            <button class="btn" onclick="updateWelcomePage()">Update Halaman Welcome</button>
+        </div>
+    </section>
+
+    <!-- Modal Password -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Masukkan Password</h2>
+            <input type="password" class="password-input" placeholder="Ketik password di sini" id="password-input">
+            <button class="btn" onclick="checkPassword()">Lanjut</button>
+        </div>
+    </div>
+
+    <!-- Modal Admin Login -->
+    <div id="admin-login-modal" class="modal">
+        <div class="admin-login-modal">
+            <h2>Login Admin</h2>
+            <div class="form-group">
+                <label for="admin-username">Username</label>
+                <input type="text" id="admin-username" class="form-input" placeholder="Masukkan username admin">
+            </div>
+            <div class="form-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" class="form-input" placeholder="Masukkan password admin">
+            </div>
+            <button class="btn" onclick="adminLogin()">Login sebagai Admin</button>
+            <button class="btn" onclick="closeAdminLoginModal()" style="background: #666; margin-left: 10px;">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Notifikasi -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Data aplikasi
+        let scItems = [];
+        let defaultPassword = "password123";
+        let isAdminLoggedIn = false;
+        const adminUsername = "admin1";
+        const adminPassword = "admin555";
+        let currentSelectedItem = null;
+        
+        // Elemen UI
+        const scListContainer = document.getElementById('sc-list-container');
+        const emptyListMessage = document.getElementById('empty-list-message');
+        
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSCItems();
+            updateListDisplay();
+        });
+        
+        // Fungsi untuk menampilkan halaman utama
+        function showMainPage() {
+            document.getElementById('ad-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'block';
+            
+            // Memastikan video diputar
+            document.getElementById('video-background').play().catch(e => console.log("Video autoplay prevented: ", e));
+        }
+        
+        // Fungsi untuk menampilkan modal password
+        function showPasswordModal(itemId) {
+            currentSelectedItem = scItems.find(item => item.id === itemId);
+            if (!currentSelectedItem) return;
+            
+            document.getElementById('modal-title').textContent = `Masukkan Password untuk ${currentSelectedItem.title}`;
+            document.getElementById('password-modal').style.display = 'flex';
+            document.getElementById('password-input').value = "";
+            document.getElementById('password-input').focus();
+        }
+        
+        // Fungsi untuk memeriksa password
+        function checkPassword() {
+            const passwordInput = document.getElementById('password-input').value;
+            const item = currentSelectedItem;
+            
+            if (!item) {
+                showNotification("Item tidak ditemukan!", "error");
+                document.getElementById('password-modal').style.display = 'none';
+                return;
+            }
+            
+            if (passwordInput === item.password) {
+                showNotification("Password benar! Mengarahkan...", "success");
+                setTimeout(() => {
+                    window.location.href = item.downloadUrl;
+                }, 1500);
+            } else {
+                showNotification("Password salah! Silakan coba lagi.", "error");
+            }
+            
+            // Reset input password dan sembunyikan modal
+            document.getElementById('password-input').value = "";
+            document.getElementById('password-modal').style.display = 'none';
+        }
+        
+        // Fungsi untuk menampilkan modal login admin
+        function showAdminLoginModal() {
+            document.getElementById('admin-login-modal').style.display = 'flex';
+            document.getElementById('admin-username').value = "";
+            document.getElementById('admin-password').value = "";
+            document.getElementById('admin-username').focus();
+        }
+        
+        // Fungsi untuk menutup modal login admin
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').style.display = 'none';
+        }
+        
+        // Fungsi untuk mengganti password default
+        function changePassword() {
+            if (!isAdminLoggedIn) {
+                showNotification("Anda harus login sebagai admin terlebih dahulu!", "error");
+                return;
+            }
+            
+            const newPassword = document.getElementById('new-password').value;
+            
+            if (newPassword.length >= 4) {
+                defaultPassword = newPassword;
+                showNotification("Password default berhasil diubah!", "success");
+                document.getElementById('new-password').value = "";
+            } else {
+                showNotification("Password harus minimal 4 karakter!", "error");
+            }
+        }
+        
+        // Fungsi untuk login admin
+        function adminLogin() {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            if (username === adminUsername && password === adminPassword) {
+                isAdminLoggedIn = true;
+                document.getElementById('add-list-form').style.display = 'block';
+                document.getElementById('password-settings').style.display = 'block';
+                document.getElementById('welcome-settings').style.display = 'block';
+                showNotification("Login admin berhasil! Fitur admin sekarang aktif.", "success");
+                
+                // Prefill welcome settings
+                document.getElementById('welcome-title-input').value = document.getElementById('welcome-title').textContent;
+                document.getElementById('welcome-message-input').value = document.getElementById('welcome-message').textContent;
+                document.getElementById('welcome-logo-url').value = document.getElementById('header-logo').src;
+                document.getElementById('welcome-bg-url').value = document.getElementById('video-background').querySelector('source').src;
+                
+                // Tutup modal login
+                closeAdminLoginModal();
+                
+                // Perbarui tampilan untuk menampilkan tombol hapus
+                updateListDisplay();
+            } else {
+                showNotification("Username atau password admin salah!", "error");
+            }
+        }
+        
+        // Fungsi untuk logout admin
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('add-list-form').style.display = 'none';
+            document.getElementById('password-settings').style.display = 'none';
+            document.getElementById('welcome-settings').style.display = 'none';
+            showNotification("Anda telah logout dari akun admin.", "info");
+            
+            // Perbarui tampilan untuk menyembunyikan tombol hapus
+            updateListDisplay();
+        }
+        
+        // Fungsi untuk menambah item SC baru
+        function addNewItem() {
+            if (!isAdminLoggedIn) {
+                showNotification("Anda harus login sebagai admin terlebih dahulu!", "error");
+                return;
+            }
+            
+            const title = document.getElementById('new-title').value;
+            const description = document.getElementById('new-description').value;
+            const imageUrl = document.getElementById('new-image').value || "https://files.catbox.moe/ohq33s.jpg";
+            const password = document.getElementById('new-password-item').value || defaultPassword;
+            const downloadUrl = document.getElementById('new-download-url').value || "#";
+            
+            if (!title || !description) {
+                showNotification("Judul dan deskripsi harus diisi!", "error");
+                return;
+            }
+            
+            // Membuat item SC baru
+            const newItem = {
+                id: 'sc-' + Date.now(),
+                title: title,
+                description: description,
+                imageUrl: imageUrl,
+                password: password,
+                downloadUrl: downloadUrl
+            };
+            
+            // Menambahkan ke array
+            scItems.push(newItem);
+            
+            // Menyimpan ke localStorage
+            saveSCItems();
+            
+            // Update tampilan
+            updateListDisplay();
+            
+            // Reset form
+            document.getElementById('new-title').value = "";
+            document.getElementById('new-description').value = "";
+            document.getElementById('new-image').value = "";
+            document.getElementById('new-password-item').value = "";
+            document.getElementById('new-download-url').value = "";
+            
+            showNotification("Item SC berhasil ditambahkan!", "success");
+        }
+        
+        // Fungsi untuk menghapus item SC
+        function deleteSCItem(itemId) {
+            if (!isAdminLoggedIn) {
+                showNotification("Anda harus login sebagai admin terlebih dahulu!", "error");
+                return;
+            }
+            
+            if (confirm("Apakah Anda yakin ingin menghapus item ini?")) {
+                scItems = scItems.filter(item => item.id !== itemId);
+                saveSCItems();
+                updateListDisplay();
+                showNotification("Item SC berhasil dihapus!", "success");
+            }
+        }
+        
+        // Fungsi untuk memperbarui halaman welcome
+        function updateWelcomePage() {
+            if (!isAdminLoggedIn) {
+                showNotification("Anda harus login sebagai admin terlebih dahulu!", "error");
+                return;
+            }
+            
+            const welcomeTitle = document.getElementById('welcome-title-input').value;
+            const welcomeMessage = document.getElementById('welcome-message-input').value;
+            const logoUrl = document.getElementById('welcome-logo-url').value;
+            const bgUrl = document.getElementById('welcome-bg-url').value;
+            
+            if (welcomeTitle) {
+                document.getElementById('welcome-title').textContent = welcomeTitle;
+            }
+            
+            if (welcomeMessage) {
+                document.getElementById('welcome-message').textContent = welcomeMessage;
+            }
+            
+            if (logoUrl) {
+                document.getElementById('header-logo').src = logoUrl;
+            }
+            
+            if (bgUrl) {
+                const videoSource = document.getElementById('video-background').querySelector('source');
+                videoSource.src = bgUrl;
+                document.getElementById('video-background').load();
+            }
+            
+            showNotification("Halaman welcome berhasil diperbarui!", "success");
+        }
+        
+        // Fungsi untuk menyimpan item ke localStorage
+        function saveSCItems() {
+            localStorage.setItem('scItems', JSON.stringify(scItems));
+        }
+        
+        // Fungsi untuk memuat item dari localStorage
+        function loadSCItems() {
+            const savedItems = localStorage.getItem('scItems');
+            if (savedItems) {
+                scItems = JSON.parse(savedItems);
+            }
+        }
+        
+        // Fungsi untuk memperbarui tampilan list
+        function updateListDisplay() {
+            if (scItems.length === 0) {
+                emptyListMessage.style.display = 'block';
+                scListContainer.innerHTML = '';
+                scListContainer.appendChild(emptyListMessage);
+                return;
+            }
+            
+            emptyListMessage.style.display = 'none';
+            scListContainer.innerHTML = '';
+            
+            scItems.forEach(item => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.innerHTML = `
+                    ${isAdminLoggedIn ? `<button class="delete-btn" onclick="deleteSCItem('${item.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    <img src="${item.imageUrl}" alt="${item.title}" class="list-image">
+                    <div class="list-details">
+                        <h3 class="list-title">${item.title}</h3>
+                        <p class="list-description">${item.description}</p>
+                        <button class="btn btn-small" onclick="showPasswordModal('${item.id}')">Install</button>
+                    </div>
+                `;
+                scListContainer.appendChild(listItem);
+            });
+        }
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            
+            if (type === "success") {
+                notification.style.background = "rgba(76, 175, 80, 0.9)";
+                notification.style.color = "white";
+            } else if (type === "error") {
+                notification.style.background = "rgba(244, 67, 54, 0.9)";
+                notification.style.color = "white";
+            } else {
+                notification.style.background = "rgba(255, 255, 255, 0.9)";
+                notification.style.color = "#4a2c7a";
+            }
+            
+            notification.style.display = 'block';
+            
+            // Sembunyikan notifikasi setelah 3 detik
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Event listener untuk menutup modal jika klik di luar area modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('password-modal');
+            const adminModal = document.getElementById('admin-login-modal');
+            
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+            
+            if (event.target === adminModal) {
+                adminModal.style.display = 'none';
+            }
+        }
+        
+        // Event listener untuk tekan enter pada input password
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // Event listener untuk tekan enter pada input login admin
+        document.getElementById('admin-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLogin();
+            }
+        });
+        
+        // Menangani autoplay policy browser
+        document.addEventListener('DOMContentLoaded', function() {
+            // Memulai video setelah interaksi pengguna
+            document.body.addEventListener('click', function() {
+                const video = document.getElementById('video-background');
+                
+                if (video.paused) {
+                    video.play().catch(function(error) {
+                        console.log("Video play failed:", error);
+                    });
+                }
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
